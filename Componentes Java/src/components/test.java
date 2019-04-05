@@ -1,6 +1,10 @@
 package components;
 
+import java.awt.BorderLayout;
+
 import javax.swing.JFrame;
+
+import jemc_combo.JEMCComboView;
 
 public class test extends JFrame{
 
@@ -11,6 +15,7 @@ public class test extends JFrame{
 		c.addItem("DEF");
 		c.addItem("AZZ");
 		add(c);
+		add(new JEMCComboView(),BorderLayout.NORTH);
 //		System.out.println(matches("ABC","A"));
 		setSize(200,200);
 		setLocationRelativeTo(null);
