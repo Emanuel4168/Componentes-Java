@@ -76,19 +76,27 @@ public class JOrderableCombo extends JPanel implements ActionListener, KeyListen
 
 	@Override
 	public void keyReleased(KeyEvent evt) {
-		if(evt.getKeyCode() == KeyEvent.VK_ENTER || evt.getKeyCode() == KeyEvent.VK_BACK_SPACE)
-			return;
-		
 		String filter = editor.getText();
-		System.out.println(filter);
-		Vector<String> aux = (btnOriginalItems.isEnabled())? elements : sortedElements,
+		char aux = evt.getKeyChar();
+		Vector<String> auxV = (btnOriginalItems.isEnabled())? sortedElements : elements ,
 				filterArray = new Vector<String>();
-		System.out.println(aux.size());
-		for(String i: aux) {
+		
+		if(!Character.isLetter(aux) && !Character.isDigit(aux) &&  !Character.isWhitespace(aux)) {
+			if(filter.length() < 1) {
+				System.out.println(auxV.get(0));
+				model = new DefaultComboBoxModel<String>(auxV);
+				combo.setModel(model);
+			}
+			return;
+		}
+		
+		System.out.println(filter);
+
+		for(String i: auxV) {
 			if(matches(i,filter))
 				filterArray.add(i);
 		}
-		System.out.println("Datos filtrados: "+filterArray.size());
+
 		model = new DefaultComboBoxModel<String>(filterArray);
 		combo.setModel(model);
 		editor.setText(filter);

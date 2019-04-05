@@ -11,7 +11,7 @@ public class test extends JFrame{
 		c.addItem("DEF");
 		c.addItem("AZZ");
 		add(c);
-		System.out.println(matches("ABC","A"));
+//		System.out.println(matches("ABC","A"));
 		setSize(200,200);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
