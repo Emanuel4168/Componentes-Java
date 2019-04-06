@@ -81,12 +81,14 @@ public class JOrderableCombo extends JPanel implements ActionListener, KeyListen
 		Vector<String> auxV = (btnOriginalItems.isEnabled())? sortedElements : elements ,
 				filterArray = new Vector<String>();
 		
+		if(filter.length() < 1) {
+			System.out.println(auxV.get(0));
+			editor.setText("");
+			model = new DefaultComboBoxModel<String>();
+			combo.setModel(model);
+			return;
+		}
 		if(!Character.isLetter(aux) && !Character.isDigit(aux) &&  !Character.isWhitespace(aux)) {
-			if(filter.length() < 1) {
-				System.out.println(auxV.get(0));
-				model = new DefaultComboBoxModel<String>(auxV);
-				combo.setModel(model);
-			}
 			return;
 		}
 		
