@@ -27,7 +27,6 @@ public class JOrderableCombo extends JPanel implements ActionListener, KeyListen
 		
 		createView();
 		addListeners();
-		setVisible(true);
 	}
 	
 	private void createView() {
@@ -70,8 +69,7 @@ public class JOrderableCombo extends JPanel implements ActionListener, KeyListen
 
 	@Override
 	public void keyPressed(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -81,16 +79,18 @@ public class JOrderableCombo extends JPanel implements ActionListener, KeyListen
 		Vector<String> auxV = (btnOriginalItems.isEnabled())? sortedElements : elements ,
 				filterArray = new Vector<String>();
 		
-		if(filter.length() < 1) {
-			System.out.println(auxV.get(0));
-			editor.setText("");
-			model = new DefaultComboBoxModel<String>();
-			combo.setModel(model);
+
+		if(!Character.isLetter(aux) && !Character.isDigit(aux) &&  !Character.isWhitespace(aux) && evt.getKeyCode() != KeyEvent.VK_BACK_SPACE) {		
 			return;
 		}
-		if(!Character.isLetter(aux) && !Character.isDigit(aux) &&  !Character.isWhitespace(aux)) {
-			return;
-		}
+		
+//		if(filter.length() < 1) {
+//			editor.setText("");
+//			model = new DefaultComboBoxModel<String>(auxV);
+//			combo.setModel(model);
+//			combo.showPopup();
+//			return;
+//		}
 		
 		System.out.println(filter);
 
@@ -99,9 +99,10 @@ public class JOrderableCombo extends JPanel implements ActionListener, KeyListen
 				filterArray.add(i);
 		}
 
-		model = new DefaultComboBoxModel<String>(filterArray);
+		model = new DefaultComboBoxModel<String>(( filter.length() > 0)? filterArray:auxV);
 		combo.setModel(model);
 		editor.setText(filter);
+		combo.showPopup();
 	}
 
 	@Override
@@ -118,5 +119,7 @@ public class JOrderableCombo extends JPanel implements ActionListener, KeyListen
 			
 		}catch(Exception e) {return false;}
 	}
+
+
 	
 }
