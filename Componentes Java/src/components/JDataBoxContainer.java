@@ -60,6 +60,18 @@ public class JDataBoxContainer extends JPanel implements ActionListener {
 		add(panelBoxes);
 	}
 	
+	public String getText(int pos) {
+		return vectorBoxes.get(pos).getText();
+	}
+	
+	public String[] getAllTexts() {
+		String[] texts = new String[vectorBoxes.size()];
+		for(int i = 0; i < texts.length; i++)
+			texts[i] = vectorBoxes.get(i).getText();
+		
+		return texts;
+	}
+	
 	public void addBox() {
 		System.out.println(vectorBoxes.size());
 		
@@ -73,9 +85,7 @@ public class JDataBoxContainer extends JPanel implements ActionListener {
 		vectorBoxes.add(box);
 		vectorButtons.add(btn);
 		int pos = vectorBoxes.size()-1;
-		
-//		box.setHorizontalAlignment(SwingConstants.LEFT);
-//		btn.setHorizontalAlignment(SwingConstants.LEFT);
+	
 		panelBoxes.add(box);
 		panelBoxes.add(btn);
 		
