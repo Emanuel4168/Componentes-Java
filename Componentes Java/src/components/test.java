@@ -20,10 +20,11 @@ public class test extends JFrame{
 		add(new JEMCComboView(),BorderLayout.NORTH);
 		
 		JPanel Panel = new JPanel();
-		Panel.add(new JMultiDataBox(JMultiDataBox.EMAIL_REGEX),BorderLayout.CENTER);
-		Panel.add(new JMultiDataBox(JMultiDataBox.RFC_regex),BorderLayout.CENTER);
-		Panel.add(new JMultiDataBox(JMultiDataBox.TEL_REGEX),BorderLayout.CENTER);
-		add(Panel);
+//		Panel.add(new JMultiDataBox(JMultiDataBox.EMAIL_REGEX),BorderLayout.CENTER);
+//		Panel.add(new JMultiDataBox(JMultiDataBox.RFC_regex),BorderLayout.CENTER);
+//		Panel.add(new JMultiDataBox(JMultiDataBox.TEL_REGEX),BorderLayout.CENTER);
+//		Panel.add(new JDataBoxContainer());
+		add(new JDataBoxContainer(), BorderLayout.CENTER);
 		
 //		System.out.println(matches("ABC","A"));
 		setSize(800,500);
