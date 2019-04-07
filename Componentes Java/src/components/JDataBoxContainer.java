@@ -66,7 +66,7 @@ public class JDataBoxContainer extends JPanel implements ActionListener {
 		if(vectorBoxes.size()==noBoxes)
 			return;
 		//Buscamos la 
-		String regEx = (rbEmail.isSelected())? JMultiDataBox.EMAIL_REGEX : (rbRFC.isSelected())? JMultiDataBox.RFC_regex : JMultiDataBox.TEL_REGEX;
+		String regEx = (rbEmail.isSelected())? JMultiDataBox.EMAIL_REGEX : (rbRFC.isSelected())? JMultiDataBox.RFC_REGEX : JMultiDataBox.TEL_REGEX;
 		JMultiDataBox box = new JMultiDataBox(regEx);
 		JButton btn = new JButton("X");
 		
