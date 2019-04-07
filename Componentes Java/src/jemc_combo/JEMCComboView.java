@@ -53,7 +53,7 @@ public class JEMCComboView extends JPanel implements ItemListener{
 			int totalEstados = (int) (estados.length()/ESTADO_LENGTH); 
 			for(int i = 0; i < totalEstados; i++) {
 				estados.seek((i*ESTADO_LENGTH)+4);
-				cmbEstados.addItem(estados.readUTF());
+				cmbEstados.addItem(estados.readUTF().trim());
 			}
 			
 		}catch(Exception e) {}
@@ -102,7 +102,7 @@ public class JEMCComboView extends JPanel implements ItemListener{
 				}
 				cutSearch = true;
 				municipios.readUTF();
-				cmbMunicipios.addItem(municipios.readUTF());
+				cmbMunicipios.addItem(municipios.readUTF().trim());
 			}
 		}catch(Exception E) {E.printStackTrace();}
 	}
@@ -126,7 +126,7 @@ public class JEMCComboView extends JPanel implements ItemListener{
 				System.out.println(i+" | "+idMunicipio);
 				cutSearch = true;
 				ciudades.readUTF();
-				cmbCiudades.addItem(ciudades.readUTF());
+				cmbCiudades.addItem(ciudades.readUTF().trim());
 			}
 		}catch(Exception E) {E.printStackTrace();}		
 	}
@@ -137,7 +137,7 @@ public class JEMCComboView extends JPanel implements ItemListener{
 			int fileSize = (int) (file.length()/size);
 			for(int i = 0; i < fileSize; i++) {
 				file.seek((i*size)+aux);
-				if(file.readUTF().equals(querry))
+				if(file.readUTF().trim().equals(querry))
 					return i+1;
 			}
 			return -1;
