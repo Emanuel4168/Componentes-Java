@@ -24,6 +24,8 @@ public class JDataBoxContainer extends JPanel implements ActionListener {
 		this.noBoxes = noBoxes;
 		successColor = success;
 		errorColor = error;
+		this.setBorder((BorderFactory.createLineBorder(Color.black)));
+		
 		panelRadios = new JPanel();
 		panelButton = new JPanel();
 		panelBoxes = new JPanel();
@@ -49,15 +51,17 @@ public class JDataBoxContainer extends JPanel implements ActionListener {
 	}
 	
 	public void createViews() {
-		setSize(700,700);
 		this.setLayout(new BoxLayout(this,BoxLayout.PAGE_AXIS));
 		
+		panelRadios.setLayout(new GridLayout(0,3,5,5));
 		panelRadios.add(rbEmail);
 		panelRadios.add(rbRFC);
 		panelRadios.add(rbTel);
 		
 		panelButton.setLayout(new FlowLayout(FlowLayout.LEFT));
+		btnNuevaCaja.setPreferredSize(new Dimension(200,20));
 		panelButton.add(btnNuevaCaja);
+		panelRadios.add(panelButton);
 		
 		panelBoxes.setLayout(new GridLayout(0,1,5,5));
 		
