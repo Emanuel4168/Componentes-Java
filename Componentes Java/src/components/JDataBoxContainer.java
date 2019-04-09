@@ -14,18 +14,21 @@ public class JDataBoxContainer extends JPanel implements ActionListener {
 	int noBoxes;
 	Vector<JMultiDataBox> vectorBoxes;
 	Vector<JButton> vectorButtons;
+	public Color successColor,errorColor;
 	
 	public JDataBoxContainer() {
-		this(10);
+		this(10,new Color(204, 204, 255),new Color(255, 128, 128));
 	}
 	
-	public JDataBoxContainer(int noBoxes) {
+	public JDataBoxContainer(int noBoxes, Color success,Color error) {
 		this.noBoxes = noBoxes;
+		successColor = success;
+		errorColor = error;
 		panelRadios = new JPanel();
 		panelButton = new JPanel();
 		panelBoxes = new JPanel();
 		
-		rbEmail = new JRadioButton("e-mail");
+		rbEmail = new JRadioButton("E-mail");
 		rbRFC = new JRadioButton("RFC");
 		rbTel = new JRadioButton("Teléfono");
 		
@@ -36,6 +39,7 @@ public class JDataBoxContainer extends JPanel implements ActionListener {
 		rbEmail.setSelected(true);
 		
 		btnNuevaCaja = new JButton("Nueva caja");
+		btnNuevaCaja.setBackground(successColor);
 		btnNuevaCaja.addActionListener(this);
 		
 		vectorBoxes = new Vector<JMultiDataBox>();
@@ -55,6 +59,8 @@ public class JDataBoxContainer extends JPanel implements ActionListener {
 		panelButton.setLayout(new FlowLayout(FlowLayout.LEFT));
 		panelButton.add(btnNuevaCaja);
 		
+		panelBoxes.setLayout(new GridLayout(0,1,5,5));
+		
 		add(panelRadios);
 		add(panelButton);
 		add(panelBoxes);
@@ -68,30 +74,35 @@ public class JDataBoxContainer extends JPanel implements ActionListener {
 		String[] texts = new String[vectorBoxes.size()];
 		for(int i = 0; i < texts.length; i++)
 			texts[i] = vectorBoxes.get(i).getText();
-		
+	
 		return texts;
 	}
 	
 	public void addBox() {
 		System.out.println(vectorBoxes.size());
+		JPanel auxPanel = new JPanel();
 		
-		if(vectorBoxes.size()==noBoxes)
+		if(vectorBoxes.size()>=noBoxes)
 			return;
-		//Buscamos la 
+		
 		String regEx = (rbEmail.isSelected())? JMultiDataBox.EMAIL_REGEX : (rbRFC.isSelected())? JMultiDataBox.RFC_REGEX : JMultiDataBox.TEL_REGEX;
 		JMultiDataBox box = new JMultiDataBox(regEx);
-		JButton btn = new JButton("X");
+		JButton btn = new JButton();
+		btn.setBackground(errorColor);
 		
 		vectorBoxes.add(box);
 		vectorButtons.add(btn);
+		
 		int pos = vectorBoxes.size()-1;
 	
-		panelBoxes.add(box);
-		panelBoxes.add(btn);
+		auxPanel.add(box);
+		auxPanel.add(btn);
+		panelBoxes.add(auxPanel);
 		
 		
 		vectorButtons.elementAt(pos).addActionListener(this);
 		SwingUtilities.updateComponentTreeUI(panelBoxes);
+		btn.setIcon(changeSize("delete_field.png",20,10));
 	}
 	
 	public void removeBox(JButton btn) {
@@ -101,8 +112,7 @@ public class JDataBoxContainer extends JPanel implements ActionListener {
 			if(vectorButtons.elementAt(pos)==btn)
 				break;
 		//Lo eliminamos del panel
-		panelBoxes.remove(vectorButtons.elementAt(pos));
-		panelBoxes.remove(vectorBoxes.elementAt(pos));
+		panelBoxes.remove(pos);
 		//Lo eliminamos de los vectores
 		vectorButtons.removeElementAt(pos);
 		vectorBoxes.removeElementAt(pos);
@@ -116,5 +126,12 @@ public class JDataBoxContainer extends JPanel implements ActionListener {
 			return;
 		}
 		removeBox((JButton)e.getSource());
+	}
+	
+	private static ImageIcon changeSize(String imgName, int width, int height) {
+		ImageIcon img = new ImageIcon(imgName);
+		Image imagenConvertir = img.getImage();
+		img.setImage(imagenConvertir.getScaledInstance(width, height, Image.SCALE_SMOOTH));
+		return img;
 	}
 }

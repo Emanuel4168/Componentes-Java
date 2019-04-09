@@ -11,12 +11,19 @@ public class JMultiDataBox extends JTextField implements FocusListener,KeyListen
 	public static final String RFC_REGEX = "[A-Z]{4}[0-9]{6}[A-Z0-9]{3}";
 	private static final int TEL_LENGTH = 11;
 	private static final int RFC_LENGTH = 13;
-	
+	public Color successColor,errorColor;
 	private String currentRegex;
 	
-	public  JMultiDataBox(String regEx) {
+	public  JMultiDataBox(String regEx,Color success, Color error) {
 		super(30);
+		successColor = success;
+		errorColor = error;
 		currentRegex = regEx;
+		setListener();
+	}
+	
+	public  JMultiDataBox(String regEx) {
+		this(regEx,Color.GREEN,Color.RED);
 		setListener();
 	}
 	
@@ -43,11 +50,11 @@ public class JMultiDataBox extends JTextField implements FocusListener,KeyListen
 	@Override
 	public void focusLost(FocusEvent evt) {
 		if(matches()) {
-			this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+			this.setBorder(BorderFactory.createLineBorder(successColor));
 			return;
 		}
 		
-		this.setBorder(BorderFactory.createLineBorder(Color.RED));
+		this.setBorder(BorderFactory.createLineBorder(errorColor));
 	}
 
 	@Override
@@ -62,7 +69,7 @@ public class JMultiDataBox extends JTextField implements FocusListener,KeyListen
 		if(currentRegex.equals(TEL_REGEX)) {
 			if(!Character.isDigit(typedChar))
 				return;
-			adjust(typedChar);
+			adjust();
 			return;
 		}
 		if(currentRegex.equals(RFC_REGEX)) {
@@ -76,13 +83,12 @@ public class JMultiDataBox extends JTextField implements FocusListener,KeyListen
 		
 	}
 	
-	private void adjust(char newChar) {
+	private void adjust() {
 		int length = getText().length();
-		if(length < 3)
+		if(length != 3)
 			return;
 		
-		String formatN = "["+getText().substring(0,3)+"]";
-		formatN += (length == 3)? "-":"";
+		String formatN = "["+getText().substring(0,3)+"]"+'-';
 		setText(formatN);
 	}
 	
