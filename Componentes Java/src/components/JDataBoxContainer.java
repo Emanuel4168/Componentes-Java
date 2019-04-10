@@ -7,14 +7,14 @@ import javax.swing.*;
 
 public class JDataBoxContainer extends JPanel implements ActionListener {
 	
-	JPanel panelRadios, panelButton, panelBoxes;
-	JRadioButton rbEmail, rbRFC, rbTel;
-	ButtonGroup radios;
-	JButton btnNuevaCaja;
-	int noBoxes;
-	Vector<JMultiDataBox> vectorBoxes;
-	Vector<JButton> vectorButtons;
-	public Color successColor,errorColor;
+	private  JPanel panelRadios, panelButton, panelBoxes;
+	private JRadioButton rbEmail, rbRFC, rbTel;
+	private ButtonGroup radios;
+	private JButton btnNuevaCaja;
+	private int noBoxes;
+	private Vector<JMultiDataBox> vectorBoxes;
+	private Vector<JButton> vectorButtons;
+	private Color successColor,errorColor;
 	
 	public JDataBoxContainer() {
 		this(10,new Color(204, 204, 255),new Color(255, 128, 128));
@@ -46,12 +46,13 @@ public class JDataBoxContainer extends JPanel implements ActionListener {
 		
 		vectorBoxes = new Vector<JMultiDataBox>();
 		vectorButtons = new Vector<JButton>();
-		
+
 		createViews();
 	}
 	
 	public void createViews() {
-		this.setLayout(new BoxLayout(this,BoxLayout.PAGE_AXIS));
+//		setLayout(new BoxLayout(this,BoxLayout.Y_AXIS)); 
+		setLayout(new BorderLayout());
 		
 		panelRadios.setLayout(new GridLayout(0,3,5,5));
 		panelRadios.add(rbEmail);
@@ -61,13 +62,12 @@ public class JDataBoxContainer extends JPanel implements ActionListener {
 		panelButton.setLayout(new FlowLayout(FlowLayout.LEFT));
 		btnNuevaCaja.setPreferredSize(new Dimension(200,20));
 		panelButton.add(btnNuevaCaja);
-		panelRadios.add(panelButton);
 		
 		panelBoxes.setLayout(new GridLayout(0,1,5,5));
 		
-		add(panelRadios);
-		add(panelButton);
-		add(panelBoxes);
+		add(panelRadios,BorderLayout.NORTH);
+		add(panelButton,BorderLayout.CENTER);
+		add(panelBoxes,BorderLayout.SOUTH);
 	}
 	
 	public String getText(int pos) {
@@ -88,6 +88,9 @@ public class JDataBoxContainer extends JPanel implements ActionListener {
 		
 		if(vectorBoxes.size()>=noBoxes)
 			return;
+		
+		if(vectorBoxes.size() == 0)
+			disableRadios();
 		
 		String regEx = (rbEmail.isSelected())? JMultiDataBox.EMAIL_REGEX : (rbRFC.isSelected())? JMultiDataBox.RFC_REGEX : JMultiDataBox.TEL_REGEX;
 		JMultiDataBox box = new JMultiDataBox(regEx);
@@ -120,6 +123,12 @@ public class JDataBoxContainer extends JPanel implements ActionListener {
 		//Lo eliminamos de los vectores
 		vectorButtons.removeElementAt(pos);
 		vectorBoxes.removeElementAt(pos);
+		
+		if(vectorButtons.size() < 1){
+			rbEmail.setEnabled(true);
+			rbRFC.setEnabled(true);
+			rbTel.setEnabled(true);
+		}
 		SwingUtilities.updateComponentTreeUI(panelBoxes);
 	}
 
@@ -137,5 +146,23 @@ public class JDataBoxContainer extends JPanel implements ActionListener {
 		Image imagenConvertir = img.getImage();
 		img.setImage(imagenConvertir.getScaledInstance(width, height, Image.SCALE_SMOOTH));
 		return img;
+	}
+	
+	private void disableRadios() {
+		int selected = (rbEmail.isSelected())? 0: (rbRFC.isSelected())? 1: 2;
+		switch(selected){
+		case 0:
+			rbRFC.setEnabled(false);
+			rbTel.setEnabled(false);
+			break;
+		case 1:
+			rbEmail.setEnabled(false);
+			rbTel.setEnabled(false);
+			break;
+		case 2:
+			rbEmail.setEnabled(false);
+			rbRFC.setEnabled(false);
+			break;
+		}
 	}
 }
