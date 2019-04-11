@@ -91,6 +91,22 @@ public class JMultiDataBox extends JTextField implements FocusListener,KeyListen
 		String formatN = "["+getText().substring(0,3)+"]"+'-';
 		setText(formatN);
 	}
+
+	public Color getSuccessColor() {
+		return successColor;
+	}
+
+	public void setSuccessColor(Color successColor) {
+		this.successColor = successColor;
+	}
+
+	public Color getErrorColor() {
+		return errorColor;
+	}
+
+	public void setErrorColor(Color errorColor) {
+		this.errorColor = errorColor;
+	}
 	
 	
 }
