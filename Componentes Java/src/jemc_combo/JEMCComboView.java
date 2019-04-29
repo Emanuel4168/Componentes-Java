@@ -23,6 +23,17 @@ public class JEMCComboView extends JPanel implements ItemListener{
 	private JComboBox cmbEstados,cmbMunicipios,cmbCiudades;
 	private RandomAccessFile estados,municipios,ciudades;
 	
+	public JEMCComboView(String estado) {
+		this();
+		this.cmbEstados.setSelectedItem(estado);
+	}
+	
+	public JEMCComboView(String estado, String municipio) {
+		this();
+		this.cmbEstados.setSelectedItem(estado);
+		this.cmbMunicipios.setSelectedItem(municipio);
+	}
+	
 	public JEMCComboView() {
 		cmbEstados = new JComboBox();
 		cmbMunicipios = new JComboBox();
@@ -57,30 +68,6 @@ public class JEMCComboView extends JPanel implements ItemListener{
 			}
 			
 		}catch(Exception e) {}
-	}
-	
-	private int busquedaBinaria(RandomAccessFile indices, String querry,int size) {
-		try {
-			String current;
-			int largo = (int) (indices.length()/ size),inferior =1, mitad, superior = largo;
-			while(inferior <= superior) {
-				mitad = (inferior + superior)/2;
-				System.out.println(largo+" "+inferior+" "+superior+" "+mitad);
-				indices.seek((mitad - 1)*size);
-				current = indices.readUTF();
-				if(querry.compareTo(current) == 0)
-					return mitad;
-				if(current.compareTo(querry) > 0)
-					superior = mitad - 1;
-				else
-					inferior = mitad + 1;
-			}
-			return -1;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return -1;
-		}
-		
 	}
 	
 	private void loadMunicipios(String idEstado) throws IOException {

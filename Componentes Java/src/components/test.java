@@ -6,7 +6,7 @@ import java.awt.GridLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import jdataBoxContainer.JDataBoxContainer;
+import jdataBoxContainer.*;
 import jemc_combo.JEMCComboView;
 
 public class test extends JFrame{
@@ -18,14 +18,14 @@ public class test extends JFrame{
 		c.addItem("DEF");
 		c.addItem("AZZ");
 		add(c,BorderLayout.SOUTH);
-		add(new JEMCComboView(),BorderLayout.NORTH);
+		add(new JEMCComboView("Aguascalientes","aguascalientes"),BorderLayout.NORTH);
 		
 		JPanel Panel = new JPanel();
 //		Panel.add(new JMultiDataBox(JMultiDataBox.EMAIL_REGEX),BorderLayout.CENTER);
 //		Panel.add(new JMultiDataBox(JMultiDataBox.RFC_regex),BorderLayout.CENTER);
 //		Panel.add(new JMultiDataBox(JMultiDataBox.TEL_REGEX),BorderLayout.CENTER);
 //		Panel.add(new JDataBoxContainer());
-		add(new JDataBoxContainer().getView(), BorderLayout.CENTER);
+		add(new JDataBoxContainer(), BorderLayout.CENTER);
 		
 //		System.out.println(matches("ABC","A"));
 		setSize(800,500);
