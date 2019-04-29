@@ -7,7 +7,7 @@ import java.io.RandomAccessFile;
 
 import javax.swing.*;
 
-public class JEMCComboView extends JPanel implements ItemListener{	
+public class JEMCCombo extends JPanel implements ItemListener{	
 
 	private final static int ESTADO_LENGTH = 56;
 	private final static int MUNICIPIO_LENGTH = 60;
@@ -23,18 +23,18 @@ public class JEMCComboView extends JPanel implements ItemListener{
 	private JComboBox cmbEstados,cmbMunicipios,cmbCiudades;
 	private RandomAccessFile estados,municipios,ciudades;
 	
-	public JEMCComboView(String estado) {
+	public JEMCCombo(String estado) {
 		this();
 		this.cmbEstados.setSelectedItem(estado);
 	}
 	
-	public JEMCComboView(String estado, String municipio) {
+	public JEMCCombo(String estado, String municipio) {
 		this();
 		this.cmbEstados.setSelectedItem(estado);
 		this.cmbMunicipios.setSelectedItem(municipio);
 	}
 	
-	public JEMCComboView() {
+	public JEMCCombo() {
 		cmbEstados = new JComboBox();
 		cmbMunicipios = new JComboBox();
 		cmbCiudades = new JComboBox();
@@ -186,6 +186,18 @@ public class JEMCComboView extends JPanel implements ItemListener{
 	
 	public String getCity() {
 		return(String) cmbCiudades.getSelectedItem();
+	}
+	
+	public int getStateIndex() {
+		return cmbEstados.getSelectedIndex();
+	}
+	
+	public int getMunicipioIndex() {
+		return cmbMunicipios.getSelectedIndex();
+	}
+	
+	public int getCityIndex() {
+		return cmbCiudades.getSelectedIndex();
 	}
 	
 }

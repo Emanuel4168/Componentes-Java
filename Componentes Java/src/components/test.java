@@ -18,7 +18,7 @@ public class test extends JFrame{
 		c.addItem("DEF");
 		c.addItem("AZZ");
 		add(c,BorderLayout.SOUTH);
-		add(new JEMCComboView("Aguascalientes","aguascalientes"),BorderLayout.NORTH);
+		add(new JEMCCombo("Aguascalientes","aguascalientes"),BorderLayout.NORTH);
 		
 		JPanel Panel = new JPanel();
 //		Panel.add(new JMultiDataBox(JMultiDataBox.EMAIL_REGEX),BorderLayout.CENTER);

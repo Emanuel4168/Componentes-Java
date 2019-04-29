@@ -119,6 +119,15 @@ public class JOrderableCombo extends JPanel implements ActionListener, KeyListen
 			
 		}catch(Exception e) {return false;}
 	}
+	
+	public String getSelectedItem() {
+		return (String)combo.getSelectedItem();
+	}
+
+	public int getSelectedIndex() {
+		return combo.getSelectedIndex();
+	}
+	
 
 
 	
