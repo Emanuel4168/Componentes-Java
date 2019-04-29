@@ -176,4 +176,16 @@ public class JEMCComboView extends JPanel implements ItemListener{
 //		cmb.addItem(item);
 	}
 	
+	public String getState() {
+		return (String) cmbEstados.getSelectedItem();
+	}
+	
+	public String getMunicipio() {
+		return (String) cmbMunicipios.getSelectedItem();
+	}
+	
+	public String getCity() {
+		return(String) cmbCiudades.getSelectedItem();
+	}
+	
 }
