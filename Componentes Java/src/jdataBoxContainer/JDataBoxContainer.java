@@ -1,4 +1,4 @@
-package components.jdataBoxContainer;
+package jdataBoxContainer;
 
 import java.awt.ScrollPane;
 

@@ -1,4 +1,4 @@
-package components.jdataBoxContainer;
+package jdataBoxContainer;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,7 +18,7 @@ public class JDataBoxContainerController implements ActionListener{
 			view.addBox();
 			return; 
 		}
-		int confirm = JOptionPane.showConfirmDialog(view, "¿Seguro que deseas eliminarlo?");
+		int confirm = JOptionPane.showConfirmDialog(view, "ï¿½Seguro que deseas eliminarlo?");
 		if(confirm!=0)
 			return;
 		view.removeBox((JButton) evt.getSource());

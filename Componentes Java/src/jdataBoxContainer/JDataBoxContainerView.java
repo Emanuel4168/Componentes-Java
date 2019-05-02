@@ -1,4 +1,4 @@
-package components.jdataBoxContainer;
+package jdataBoxContainer;
 import java.awt.*;
 import java.util.Vector;
 import javax.swing.*;
@@ -34,7 +34,7 @@ public class JDataBoxContainerView extends JPanel {
 
 		rbEmail = new JRadioButton("E-mail");
 		rbRFC = new JRadioButton("RFC");
-		rbTel = new JRadioButton("Teléfono");
+		rbTel = new JRadioButton("Telefono");
 
 		radios = new ButtonGroup();
 		radios.add(rbEmail);
@@ -113,11 +113,11 @@ public class JDataBoxContainerView extends JPanel {
 
 		vectorButtons.elementAt(pos).addActionListener(btnNuevaCaja.getActionListeners()[0]);
 		SwingUtilities.updateComponentTreeUI(panelBoxes);
-		btn.setIcon(changeSize("delete-field.png",20,10));
+		btn.setIcon(changeSize("delete_field.png",20,10));
 	}
 
 	protected void removeBox(JButton btn) {
-		//Buscamos la posición en que se encuentra el elemento a eliminar
+		//Buscamos la posiciï¿½n en que se encuentra el elemento a eliminar
 		int pos;
 		for (pos = 0 ; pos < vectorButtons.size() ; pos++)
 			if(vectorButtons.elementAt(pos)==btn)

@@ -74,6 +74,7 @@ public class JOrderableCombo extends JPanel implements ActionListener, KeyListen
 
 	@Override
 	public void keyReleased(KeyEvent evt) {
+		Collections.sort(this.sortedElements);
 		String filter = editor.getText();
 		char aux = evt.getKeyChar();
 		Vector<String> auxV = (btnOriginalItems.isEnabled())? sortedElements : elements ,
@@ -120,7 +121,8 @@ public class JOrderableCombo extends JPanel implements ActionListener, KeyListen
 	
 	public void setItem(String item, int pos) {
 		combo.insertItemAt(item, pos);
-		Collections.sort(this.sortedElements);
+		elements.set(pos, item);
+		sortedElements.add(item);
 	}
 	
 	public List<String> getElementsAsList() {

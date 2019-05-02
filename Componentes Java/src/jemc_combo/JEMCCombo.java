@@ -1,4 +1,4 @@
-package components.jemc_combo;
+package jemc_combo;
 
 import java.awt.event.ItemEvent;
 import java.awt.Dimension;
