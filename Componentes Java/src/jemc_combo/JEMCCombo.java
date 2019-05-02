@@ -1,6 +1,8 @@
-package jemc_combo;
+package components.jemc_combo;
 
 import java.awt.event.ItemEvent;
+import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.*;
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -15,50 +17,77 @@ public class JEMCCombo extends JPanel implements ItemListener{
 	private final static String ESTADOS_DEFAULT = "Seleccione un Estado";
 	private final static String MUNICIPIOS_DEFAULT = "Seleccione un Municipio";
 	private final static String CIUDADES_DEFAULT = "Seleccione una Ciudad";
-	
-//	private final static int ESTADO_INDEX_LENGTH = 60;
-//	private final static int MUNICIPIO_INDEX_LENGTH = 60;
-//	private final static int CIUDAD_INDEX_LENGTH = 17;
+	public final static int ORIENTACION_HORIZONTAL = 1;
+	public final static int ORIENTACION_VERTICAL = 2;
 	
 	private JComboBox cmbEstados,cmbMunicipios,cmbCiudades;
 	private RandomAccessFile estados,municipios,ciudades;
 	
-	public JEMCCombo(String estado) {
-		this();
-		this.cmbEstados.setSelectedItem(estado);
+	public JEMCCombo(int orientacion) {
+		this(orientacion, "");
 	}
 	
-	public JEMCCombo(String estado, String municipio) {
-		this();
-		this.cmbEstados.setSelectedItem(estado);
-		this.cmbMunicipios.setSelectedItem(municipio);
+	public JEMCCombo(int orientacion, String estado) {
+		this(orientacion, estado,"");
 	}
 	
-	public JEMCCombo() {
+	public JEMCCombo(int orientacion, String estado, String municipio) {
 		cmbEstados = new JComboBox();
+		cmbEstados.setPreferredSize(new Dimension(170,30));
 		cmbMunicipios = new JComboBox();
+		cmbMunicipios.setPreferredSize(new Dimension(170,30));
 		cmbCiudades = new JComboBox();
+		cmbCiudades.setPreferredSize(new Dimension(170,30));
 		
 		try {
 			estados = new RandomAccessFile( "estados.dat","rw");
 			municipios = new RandomAccessFile( "municipios.dat","rw");
 			ciudades = new RandomAccessFile( "ciudades.dat","rw");
-		}catch(Exception e) {e.printStackTrace();}
+		}catch(Exception e) {
+			e.printStackTrace();
+			return;
+		}
 		
-		add(new JLabel("Estados:"));
-		add(cmbEstados);
-		add(new JLabel("Municipios:"));
-		add(cmbMunicipios);
-		add(new JLabel("Ciudades:"));
-		add(cmbCiudades);
+		if(orientacion==ORIENTACION_VERTICAL)
+			this.setLayout(new GridLayout(3,1,5,5));
 		
+		createViews();
 		addListeners();
-		loadStates();
+		
+		if(estado.equals("")) {
+			loadStates();
+			return;
+		}
+		
+		cmbEstados.setSelectedItem(estado);
+		restartCombo(cmbEstados);
+		cmbEstados.addItem(estado);
+		
+		if(municipio.equals(""))
+			return;
+		cmbMunicipios.setSelectedItem(municipio);
+		restartCombo(cmbMunicipios);
+		cmbMunicipios.addItem(municipio);
+	}
+	
+	private void createViews() {
+		JPanel panelEstados = new JPanel();
+		JPanel panelMunicipios = new JPanel();
+		JPanel panelCiudades = new JPanel();
+		panelEstados.add(new JLabel("      Estados:"));
+		panelEstados.add(cmbEstados);
+		panelMunicipios.add(new JLabel(" Municipios:"));
+		panelMunicipios.add(cmbMunicipios);
+		panelCiudades.add(new JLabel("    Ciudades:"));
+		panelCiudades.add(cmbCiudades);
+		
+		add(panelEstados);
+		add(panelMunicipios);
+		add(panelCiudades);
 	}
 	
 	private void loadStates() {
 		try {
-			//cmbEstados.addItem("Seleccionar Estado");
 			cmbEstados.addItem(ESTADOS_DEFAULT);
 			cmbEstados.setSelectedItem(ESTADOS_DEFAULT);
 			int totalEstados = (int) (estados.length()/ESTADO_LENGTH); 
@@ -67,7 +96,10 @@ public class JEMCCombo extends JPanel implements ItemListener{
 				cmbEstados.addItem(estados.readUTF().trim());
 			}
 			
-		}catch(Exception e) {}
+		}catch(Exception e) {
+			e.printStackTrace();
+			return;
+		}
 	}
 	
 	private void loadMunicipios(String idEstado) throws IOException {
@@ -91,31 +123,38 @@ public class JEMCCombo extends JPanel implements ItemListener{
 				municipios.readUTF();
 				cmbMunicipios.addItem(municipios.readUTF().trim());
 			}
-		}catch(Exception E) {E.printStackTrace();}
+		}catch(Exception e) {
+			e.printStackTrace();
+			return;
+		}
 	}
 	
-	private void loadCities(String idMunicipio) {
+	private void loadCities(String idEstado, String idMunicipio) {
+		restartCombo(cmbCiudades);
 		try{
 			int ciudadesSize = (int) (ciudades.length()/CIUDAD_LENGTH);
-			String aux;
+			String auxEstado, auxMunicipio;
 			boolean cutSearch = false;
 			
 			cmbCiudades.addItem(CIUDADES_DEFAULT);
 			for(int i = 0; i < ciudadesSize; i++) {
 				ciudades.seek(i *CIUDAD_LENGTH);
-				ciudades.readUTF();
-				aux = ciudades.readUTF();
-				if(!aux.equals(idMunicipio)) {
+				auxEstado = ciudades.readUTF();
+				auxMunicipio = ciudades.readUTF();
+				if(!auxEstado.equals(idEstado) || !auxMunicipio.equals(idMunicipio) ) {
 					if(cutSearch)
 						return;
 					continue;
 				}
-				System.out.println(i+" | "+idMunicipio);
+//				System.out.println(i+" | "+idEstado+" | "+idMunicipio);
 				cutSearch = true;
 				ciudades.readUTF();
 				cmbCiudades.addItem(ciudades.readUTF().trim());
 			}
-		}catch(Exception E) {E.printStackTrace();}		
+		}catch(Exception e) {
+			e.printStackTrace();
+			return;
+		}	
 	}
 	
 	private int search(RandomAccessFile file, String querry,int size) {
@@ -142,6 +181,7 @@ public class JEMCCombo extends JPanel implements ItemListener{
 		if(evt.getStateChange() != ItemEvent.SELECTED)
 			return;
 		String id,selectedItem = (String) evt.getItem();
+//		System.out.println(selectedItem);
 		if(evt.getSource() == cmbEstados) {
 			if(selectedItem == ESTADOS_DEFAULT) {
 				restartCombo(cmbMunicipios);
@@ -153,27 +193,34 @@ public class JEMCCombo extends JPanel implements ItemListener{
 				estados.seek((pos -1) * ESTADO_LENGTH);
 				id = estados.readUTF();
 				loadMunicipios(id);
-			}catch(Exception e) {e.printStackTrace();}
+			}catch(Exception e) {
+				e.printStackTrace();
+				return;
+			}
 		}
 		if(evt.getSource() == cmbMunicipios) {
 			if(selectedItem == MUNICIPIOS_DEFAULT) {
 				restartCombo(cmbCiudades);
 				return;
 			}
+			int posEst = this.search(estados, (String) cmbEstados.getSelectedItem(), ESTADO_LENGTH);
 			int pos = this.search(municipios,selectedItem,MUNICIPIO_LENGTH);
 			try{
+				estados.seek((posEst -1) * ESTADO_LENGTH);
+				String idEst = estados.readUTF();
 				municipios.seek((pos -1) * MUNICIPIO_LENGTH);
 				municipios.readUTF();
 				id = municipios.readUTF();
-				loadCities(id);
-			}catch(Exception e) {e.printStackTrace();}
+				loadCities(idEst,id);
+			}catch(Exception e) {
+				e.printStackTrace();
+				return;
+			}
 		}
 	}
 	
 	private void restartCombo(JComboBox cmb) {
 		cmb.setModel(new DefaultComboBoxModel<String>(new String[0]));
-//		String item = (cmb == cmbMunicipios)? MUNICIPIOS_DEFAULT:CIUDADES_DEFAULT;
-//		cmb.addItem(item);
 	}
 	
 	public String getState() {
@@ -199,5 +246,4 @@ public class JEMCCombo extends JPanel implements ItemListener{
 	public int getCityIndex() {
 		return cmbCiudades.getSelectedIndex();
 	}
-	
 }
