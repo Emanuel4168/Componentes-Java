@@ -6,12 +6,12 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class JMultiDataBox extends JTextField implements FocusListener,KeyListener{
-	public static final String EMAIL_REGEX = "[A-Za-z0-9]{1}[A-Za-z0-9-_.]{5,20}[@]{1}[A-Za-z]{4,15}[.]{1}[A-Za-z]{2,3}";
+	public static final String EMAIL_REGEX = "[A-Za-z0-9-_.]{1,20}[@]{1}[A-Za-z]{1,15}[.]{1}[A-Za-z]{2,3}";
 	public static final String TEL_REGEX = "[0-9]{3}[-]{1}[0-9]{7}";
 	public static final String RFC_REGEX = "[A-Z]{4}[0-9]{6}[A-Z0-9]{3}";
 	private static final int TEL_LENGTH = 11;
 	private static final int RFC_LENGTH = 13;
-	public Color successColor,errorColor;
+	private Color successColor,errorColor;
 	private String currentRegex;
 	
 	public  JMultiDataBox(String regEx,Color success, Color error) {
@@ -49,6 +49,14 @@ public class JMultiDataBox extends JTextField implements FocusListener,KeyListen
 
 	@Override
 	public void focusLost(FocusEvent evt) {
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent arg0) {}
+
+	@Override
+	public void keyReleased(KeyEvent arg0) {
 		if(matches()) {
 			this.setBorder(BorderFactory.createLineBorder(successColor));
 			return;
@@ -56,12 +64,6 @@ public class JMultiDataBox extends JTextField implements FocusListener,KeyListen
 		
 		this.setBorder(BorderFactory.createLineBorder(errorColor));
 	}
-
-	@Override
-	public void keyPressed(KeyEvent arg0) {}
-
-	@Override
-	public void keyReleased(KeyEvent arg0) {}
 
 	@Override
 	public void keyTyped(KeyEvent evt) {
@@ -75,12 +77,10 @@ public class JMultiDataBox extends JTextField implements FocusListener,KeyListen
 		if(currentRegex.equals(RFC_REGEX)) {
 			if(!Character.isLetter(typedChar))
 				return;
-			System.out.println(typedChar);
 			setText(getText()+Character.toUpperCase(typedChar));
 			evt.consume();
 			return;
 		}
-		
 	}
 	
 	private void adjust() {
@@ -107,6 +107,4 @@ public class JMultiDataBox extends JTextField implements FocusListener,KeyListen
 	public void setErrorColor(Color errorColor) {
 		this.errorColor = errorColor;
 	}
-	
-	
 }

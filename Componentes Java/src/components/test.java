@@ -6,28 +6,28 @@ import java.awt.GridLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import jdataBoxContainer.*;
-import jemc_combo.JEMCComboView;
+import components.jemc_combo.JEMCCombo;
+import components.jdataBoxContainer.JDataBoxContainer;
 
 public class test extends JFrame{
 
 	private test() {
+//COMBO 1
 		JOrderableCombo c = new JOrderableCombo();
 		c.addItem("ZXY");
 		c.addItem("ABC");
 		c.addItem("DEF");
 		c.addItem("AZZ");
 		add(c,BorderLayout.SOUTH);
-		add(new JEMCCombo("Aguascalientes","aguascalientes"),BorderLayout.NORTH);
 		
-		JPanel Panel = new JPanel();
-//		Panel.add(new JMultiDataBox(JMultiDataBox.EMAIL_REGEX),BorderLayout.CENTER);
-//		Panel.add(new JMultiDataBox(JMultiDataBox.RFC_regex),BorderLayout.CENTER);
-//		Panel.add(new JMultiDataBox(JMultiDataBox.TEL_REGEX),BorderLayout.CENTER);
-//		Panel.add(new JDataBoxContainer());
+//COMBO 2
+		add(new JEMCCombo(JEMCCombo.ORIENTACION_HORIZONTAL),BorderLayout.NORTH);
+//		add(new JEMCCombo(JEMCCombo.ORIENTACION_VERTICAL, "Aguascalientes"),BorderLayout.NORTH);
+//		add(new JEMCCombo(JEMCCombo.ORIENTACION_HORIZONTAL, "Aguascalientes", "aguascalientes"),BorderLayout.NORTH);
+		
+//COMBO 3
 		add(new JDataBoxContainer(), BorderLayout.CENTER);
 		
-//		System.out.println(matches("ABC","A"));
 		setSize(800,500);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -37,15 +37,4 @@ public class test extends JFrame{
 	public static void main(String[] args) {
 		new test();
 	}
-	
-	private boolean matches(String str, String regEx) {
-		try {
-			for(int i = 0; i < regEx.length(); i++)
-				if(str.charAt(i) != regEx.charAt(i))
-					return false;
-			return true;
-			
-		}catch(Exception e) {return false;}
-	}
-
 }

@@ -1,6 +1,6 @@
 package components;
 
-import java.awt.*;
+import java.awt.GridLayout;
 import java.awt.event.*;
 import java.util.*;
 
@@ -83,16 +83,6 @@ public class JOrderableCombo extends JPanel implements ActionListener, KeyListen
 		if(!Character.isLetter(aux) && !Character.isDigit(aux) &&  !Character.isWhitespace(aux) && evt.getKeyCode() != KeyEvent.VK_BACK_SPACE) {		
 			return;
 		}
-		
-//		if(filter.length() < 1) {
-//			editor.setText("");
-//			model = new DefaultComboBoxModel<String>(auxV);
-//			combo.setModel(model);
-//			combo.showPopup();
-//			return;
-//		}
-		
-		System.out.println(filter);
 
 		for(String i: auxV) {
 			if(matches(i,filter))
@@ -128,7 +118,32 @@ public class JOrderableCombo extends JPanel implements ActionListener, KeyListen
 		return combo.getSelectedIndex();
 	}
 	
-
-
+	public void setItem(String item, int pos) {
+		combo.insertItemAt(item, pos);
+		Collections.sort(this.sortedElements);
+	}
 	
+	public List<String> getElementsAsList() {
+		return (List<String>) this.elements.clone();
+	}
+	
+	public List<String> getSortedElementsAsList() {
+		return (List<String>) this.sortedElements.clone();
+	}
+	
+	public String[] getElementsAsVector() {
+		String []elementsVec = new String[elements.size()];
+		for (int i = 0; i < elementsVec.length; i++) 
+			elementsVec[i] = new String(elements.get(i));
+		
+		return elementsVec;
+	}
+	
+	public String[] getSortedElensAsVector(){
+		String []elementsVec = new String[sortedElements.size()];
+		for (int i = 0; i < elementsVec.length; i++) 
+			elementsVec[i] = new String(sortedElements.get(i));
+		
+		return elementsVec;
+	}
 }
